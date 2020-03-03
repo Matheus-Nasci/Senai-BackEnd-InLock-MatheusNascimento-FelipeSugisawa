@@ -16,7 +16,7 @@ namespace Senai.InLock.WebApi.Repository
         {
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string queryInsert = "INSERT INTO Jogos (NomeJogo, Descricao, DataLancamento, Valor, IdEstudio) VALUES (@Nome, @Descricao, @DataLancamento, @Valor, @IdEstudio)";
+                string queryInsert = "INSERT INTO Jogos (NomeJogos, Descricao, DataLancamento, Valor, IdEstudio) VALUES (@Nome, @Descricao, @DataLancamento, @Valor, @IdEstudio)";
 
                 con.Open();
 
@@ -41,7 +41,7 @@ namespace Senai.InLock.WebApi.Repository
         {
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string queryDeletar = "DELETE Jogos FROM IdJogo = @ID";
+                string queryDeletar = "DELETE Jogos WHERE IdJogo = @ID";
 
                 using (SqlCommand cmd = new SqlCommand(queryDeletar, con))
                 {
@@ -60,7 +60,7 @@ namespace Senai.InLock.WebApi.Repository
 
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string querySelectAll = "SELECT IdJogos, NomeJogo, Descricao, DataLancamento, Valor, IdEstudio FROM Jogos";
+                string querySelectAll = "SELECT Jogos.IdJogo, Jogos.NomeJogos, Jogos.Descricao, Jogos.DataLancamento, Jogos.Valor, Estudio.IdEstudio, Estudio.NomeEstudio FROM Jogos INNER JOIN Estudio ON Estudio.IdEstudio = Jogos.IdEstudio";
 
                 con.Open();
 
@@ -76,15 +76,22 @@ namespace Senai.InLock.WebApi.Repository
                         {
                             IdJogos = Convert.ToInt32(rdr["IdJogo"]),
 
-                            NomeJogos = rdr["NomeJogo"].ToString(),
+                            NomeJogos = rdr["NomeJogos"].ToString(),
 
                             Descricao = rdr["Descricao"].ToString(),
 
-                            DataLancamento = Convert.ToDateTime(rdr["DataNascimento"]),
+                            DataLancamento = Convert.ToDateTime(rdr["DataLancamento"]),
 
                             Valor = rdr["Valor"].ToString(),
+
+                            Estudio = new EstudioDomain
+                            {
+                                IdEstudio = Convert.ToInt32(rdr["IdEstudio"]),
+
+                                NomeEstudio = rdr["NomeEstudio"].ToString(),
+
+                            }
                         };
-                            Jogo.Estudio.IdEstudio = Convert.ToInt32(rdr[0]);
 
                         ListaJogos.Add(Jogo);
                     }

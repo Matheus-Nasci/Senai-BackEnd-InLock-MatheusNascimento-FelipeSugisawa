@@ -50,7 +50,7 @@ namespace Senai.InLock.WebApi.Controllers
                 new Claim(ClaimTypes.Role, usuarioBuscado.IdTipoUsuario.ToString())
             };
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("peoples-chave-autenticacao"));
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("InLock-chave-autenticacao"));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 

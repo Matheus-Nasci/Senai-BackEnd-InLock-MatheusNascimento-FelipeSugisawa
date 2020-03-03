@@ -1,6 +1,3 @@
---DDL
---InLock_BD_DDL_01.sql
-
 CREATE DATABASE Inlock_Games_Tarde;
 GO
 
@@ -16,7 +13,8 @@ GO
 CREATE TABLE  Usuario(
 	IdUsuario INT PRIMARY KEY IDENTITY,
 	Email VARCHAR (255) UNIQUE NOT NULL,
-	Senha VARCHAR (255) NOT NULL
+	Senha VARCHAR (255) NOT NULL,
+	IdTipoUsuario INT FOREIGN KEY REFERENCES TipoUsuario(IdTipoUsuario)
 );
 GO
 
@@ -36,4 +34,6 @@ CREATE TABLE  Jogos(
 	
 );
 GO
+
+
 

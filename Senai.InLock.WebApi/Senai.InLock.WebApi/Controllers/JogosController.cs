@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Senai.InLock.WebApi.Domains;
 using Senai.InLock.WebApi.Interface;
@@ -14,6 +15,7 @@ namespace Senai.InLock.WebApi.Controllers
 
     [Route("api/[Controller]")]
 
+    [Authorize]
     [ApiController]
     public class JogosController : ControllerBase
     {
@@ -30,6 +32,7 @@ namespace Senai.InLock.WebApi.Controllers
         /// <returns>Lista de Jogos</returns>
         /// <response code="200">Retorna Ok ao Listar</response>
         /// <response code="404">Se não conseguir Listar</response> 
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -46,6 +49,7 @@ namespace Senai.InLock.WebApi.Controllers
         /// <returns>Item Deletado</returns>
         /// <response code="200">Retorna Ok ao Deletar Item da Lista</response>
         /// <response code="404">Se não conseguir Deletar </response> 
+        [Authorize(Roles = "1")]
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -63,6 +67,7 @@ namespace Senai.InLock.WebApi.Controllers
         /// <returns>Jogo Cadastrado</returns>
         /// /// <response code="201">Retorna Created ao Cadastrar o Item na Lista</response>
         /// <response code="400">Se não conseguir Cadastrar</response> 
+        [Authorize(Roles = "1")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
