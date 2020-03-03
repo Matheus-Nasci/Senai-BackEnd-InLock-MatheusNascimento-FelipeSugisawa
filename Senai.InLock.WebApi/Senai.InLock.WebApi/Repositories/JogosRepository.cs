@@ -16,7 +16,24 @@ namespace Senai.InLock.WebApi.Repository
         {
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string Cadastro = "";
+                string queryInsert = "INSERT INTO Jogos (NomeJogo, Descricao, DataLancamento, Valor, IdEstudio) VALUES (@Nome, @Descricao, @DataLancamento, @Valor, @IdEstudio)";
+
+                con.Open();
+
+                using(SqlCommand cmd = new SqlCommand(queryInsert, con))
+                {
+                    cmd.Parameters.AddWithValue("@Nome", novoJogo.NomeJogos);
+
+                    cmd.Parameters.AddWithValue("@Descricao", novoJogo.Descricao);
+
+                    cmd.Parameters.AddWithValue("@DataLancamento", novoJogo.DataLancamento);
+
+                    cmd.Parameters.AddWithValue("@Valor", novoJogo.Valor);
+
+                    cmd.Parameters.AddWithValue("@IdEstudio", novoJogo.Estudio.IdEstudio);
+
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 
@@ -24,7 +41,16 @@ namespace Senai.InLock.WebApi.Repository
         {
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string DeletarPorId = "";
+                string queryDeletar = "DELETE Jogos FROM IdJogo = @ID";
+
+                using (SqlCommand cmd = new SqlCommand(queryDeletar, con))
+                {
+                    con.Open();
+
+                    cmd.Parameters.AddWithValue("ID", id);
+
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 
@@ -34,13 +60,13 @@ namespace Senai.InLock.WebApi.Repository
 
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string SelectAll = "SELECT IdJogos, NomeJogo, Descricao, DataLancamento, Valor, IdEstudio FROM Jogos";
+                string querySelectAll = "SELECT IdJogos, NomeJogo, Descricao, DataLancamento, Valor, IdEstudio FROM Jogos";
 
                 con.Open();
 
                 SqlDataReader rdr;
 
-                using (SqlCommand cmd = new SqlCommand(con, stringConexao))
+                using (SqlCommand cmd = new SqlCommand(querySelectAll, con))
                 {
                     rdr = cmd.ExecuteReader();
 
@@ -60,11 +86,11 @@ namespace Senai.InLock.WebApi.Repository
                         };
                             Jogo.Estudio.IdEstudio = Convert.ToInt32(rdr[0]);
 
-                        ListarJogos.Add(Jogo);
+                        ListaJogos.Add(Jogo);
                     }
                 }
             }
-            return ListarJogos;
+            return ListaJogos;
         }
     }
 }
